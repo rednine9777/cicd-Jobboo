@@ -18,7 +18,7 @@ load_dotenv(dotenv_path=dotenv_path)
 
 # async_session fixture 정의
 @pytest.fixture
-async def async_session():
+async def async_session_maker():
     db_url = f"mysql+aiomysql://{os.getenv('MYSQL_USER')}:{os.getenv('MYSQL_PASSWORD')}@{os.getenv('MYSQL_HOST')}/{os.getenv('MYSQL_DATABASE')}"
     engine = create_async_engine(db_url, echo=True)
     async_session_maker = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
@@ -27,9 +27,8 @@ async def async_session():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    # 세션 생성 및 반환
-    async with async_session_maker() as session:
-        yield session
+    # async_session_maker를 반환
+    yield async_session_maker
 
     # 엔진 종료
     await engine.dispose()
