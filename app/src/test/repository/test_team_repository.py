@@ -4,7 +4,8 @@ import sys
 import os
 
 # 경로 문제 해결을 위한 설정
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../main/goo/'))
+# 현재 디렉토리의 상위 디렉토리를 Python 모듈 경로에 추가
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../../../')
 
 from models import Team
 from repository import TeamRepository
