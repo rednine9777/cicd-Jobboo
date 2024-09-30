@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 
 # Calculate the path to the .env file and load it
-dotenv_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'config', '.env'))
+dotenv_path = os.path.join(os.getcwd(), 'config', '.env')
 print("Attempting to load .env from:", dotenv_path)
 if os.path.exists(dotenv_path):
     print(".env file exists")
@@ -14,7 +14,7 @@ else:
 # MySQL connection test function
 def test_mysql_connection():
     # Retrieve DB information from environment variables
-    db_host = "localhost"
+    db_host = "db"  # Update host to 'db' for Docker connection
     db_user = os.getenv('MYSQL_USER')
     db_password = os.getenv('MYSQL_PASSWORD')
     db_port = int(os.getenv('MYSQL_PORT', 3306))
