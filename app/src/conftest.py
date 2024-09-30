@@ -1,15 +1,15 @@
-# app/src/conftest.py
 import pytest
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 import sys
 import os
 
-# app 디렉토리 경로를 Python 경로에 추가
+# app 디렉토리의 경로를 Python 경로에 추가
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+print("Current sys.path:", sys.path)  # 추가된 경로 출력
 
-# models 파일에서 Base를 가져옴
-from app.models import Base
+# models 파일에서 Base를 가져옵니다.
+from app.models import Base  # 정확한 경로로 수정 필요
 
 # 환경 변수 로드
 from dotenv import load_dotenv

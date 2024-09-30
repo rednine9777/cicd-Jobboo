@@ -1,6 +1,13 @@
 # app/src/test/repository/test_team_repository.py
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
+import sys
+import os
+
+# Python 경로 설정 후 출력
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+print("Current sys.path:", sys.path)  # 경로 출력
+
 from app.models import Team  # models 경로 수정
 from app.src.main.goo.repository.TeamRepository import TeamRepository
 
