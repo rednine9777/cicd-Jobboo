@@ -2,13 +2,15 @@ import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 import sys
 import os
+from models import Team
+from main.goo.repository.TeamRepository import TeamRepository
 
-# 경로 문제 해결을 위한 설정
-# 현재 디렉토리의 상위 디렉토리를 Python 모듈 경로에 추가
+
+# app 루트 경로를 Python 경로에 추가
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../../../')
 
-from models import Team
-from repository import TeamRepository
+
+
 
 @pytest.mark.asyncio
 async def test_create_and_get_team_by_name(async_session: AsyncSession):
