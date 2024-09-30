@@ -17,12 +17,12 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install pytest pytest-asyncio
+        pip install pytest pytest-asyncio  # pytest-asyncio 설치 확실히 하기
 
     - name: Create pytest.ini file
       run: |
         echo "[pytest]" > pytest.ini
-        echo "markers = asyncio: mark a test as asyncio" >> pytest.ini
+        echo "markers = asyncio: mark a test as asyncio" >> pytest.ini  # asyncio 마커 설정
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
@@ -32,11 +32,8 @@ jobs:
         sudo apt-get update
         sudo apt-get install docker-compose -y
 
-
-    
     - name: Create .env file from secrets
       run: |
-        # .env 파일을 시크릿 값으로 생성
         mkdir -p config
         echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" > config/.env
         echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> config/.env
@@ -57,5 +54,4 @@ jobs:
 
     - name: Run pytest inside the container
       run: |
-        # GitHub Actions 환경에서는 TTY가 제공되지 않으므로 -T 플래그 추가
         docker-compose exec -T web pytest -s /app/src/test/
