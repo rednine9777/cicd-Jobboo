@@ -14,22 +14,24 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
+    
+    - name: Install Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install docker-compose -y
     
     - name: Build Docker image
       uses: docker/build-push-action@v4
       with:
         context: .
-        push: false  # 이미지를 푸시하지 않으려면 false로 설정
+        push: false
         tags: my-app:latest
 
     - name: Start services with Docker Compose
       run: docker-compose up -d
-
-    - name: Install pytest
-      run: pip install pytest
 
     - name: Run pytest
       run: pytest -s app/src/test/
