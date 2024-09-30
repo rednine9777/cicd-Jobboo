@@ -1,12 +1,7 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
-import sys
-import os
 from models import Team
 from repository.TeamRepository import TeamRepository
-
-# 현재 파일 위치에서의 상대 경로 설정
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../../main/goo'))
 
 @pytest.mark.asyncio
 async def test_create_and_get_team_by_name(async_session: AsyncSession):
