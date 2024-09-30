@@ -24,9 +24,6 @@ jobs:
         echo "[pytest]" > pytest.ini
         echo "markers = asyncio: mark a test as asyncio" >> pytest.ini  # asyncio 마커 등록
 
-    # - name: Set up Docker Buildx
-    #   uses: docker/setup-buildx-action@v2
-
     - name: Install Docker Compose
       run: |
         sudo apt-get update
