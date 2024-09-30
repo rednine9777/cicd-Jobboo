@@ -25,6 +25,7 @@ jobs:
     
     - name: Create .env file from secrets
       run: |
+        # .env 파일을 시크릿 값으로 생성
         mkdir -p config
         echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" > config/.env
         echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> config/.env
@@ -44,4 +45,6 @@ jobs:
       run: docker-compose up -d
 
     - name: Run pytest inside the container
-      run: docker-compose exec web pytest -s app/src/test/
+      run: |
+        # GitHub Actions 환경에서는 TTY가 제공되지 않으므로 -T 플래그 추가
+        docker-compose exec -T web pytest -s app/src/test/
