@@ -1,18 +1,10 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
-import sys
-import os
-
-# app 디렉토리를 Python 경로에 추가
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../app')))
-
 from models import Team
 from src.main.goo.repository.TeamRepository import TeamRepository
 
-
 @pytest.mark.asyncio
 async def test_create_and_get_team_by_name(async_session: AsyncSession):
-    # 트랜잭션 시작
     async with async_session() as session:
         team_repo = TeamRepository(session)
 
@@ -38,5 +30,4 @@ async def test_create_and_get_team_by_name(async_session: AsyncSession):
         assert fetched_team.t_name == "Test Team"
         assert fetched_team.t_intro == "This is a test team"
 
-    # 세션 종료 후 롤백 처리
     await session.rollback()
