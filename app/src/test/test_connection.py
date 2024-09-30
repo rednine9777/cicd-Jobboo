@@ -5,16 +5,17 @@ from dotenv import load_dotenv
 # Calculate the path to the .env file and load it
 dotenv_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'config', '.env'))
 print("Attempting to load .env from:", dotenv_path)
+
 if os.path.exists(dotenv_path):
     print(".env file exists")
     load_dotenv(dotenv_path=dotenv_path)
 else:
-    print(".env file does not exist")
+    print(".env file does not exist, please check the file path.")
 
 # MySQL connection test function
 def test_mysql_connection():
     # Retrieve DB information from environment variables
-    db_host = "db"
+    db_host = "db"  # Docker 컨테이너 내부에서는 일반적으로 'db' 호스트 사용
     db_user = os.getenv('MYSQL_USER')
     db_password = os.getenv('MYSQL_PASSWORD')
     db_port = int(os.getenv('MYSQL_PORT', 3306))
@@ -32,5 +33,7 @@ def test_mysql_connection():
         connection = pymysql.connect(host=db_host, user=db_user, password=db_password, port=db_port)
         connection.close()
         assert True  # Test passes if connection is successful
+        print("MySQL connection successful!")
     except Exception as e:
         assert False, f"Error connecting to MySQL: {e}"
+        print(f"Error connecting to MySQL: {e}")
