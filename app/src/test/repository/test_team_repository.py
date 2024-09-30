@@ -1,7 +1,8 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 from models import Team
-from repository.TeamRepository import TeamRepository
+from app.src.main.goo.repository.TeamRepository import TeamRepository
+
 
 @pytest.mark.asyncio
 async def test_create_and_get_team_by_name(async_session: AsyncSession):
