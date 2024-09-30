@@ -3,14 +3,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 import sys
 import os
 from models import Team
-from main.goo.repository.TeamRepository import TeamRepository
+from repository.TeamRepository import TeamRepository
 
-
-# app 루트 경로를 Python 경로에 추가
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../../../')
-
-
-
+# 현재 파일 위치에서의 상대 경로 설정
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../../main/goo'))
 
 @pytest.mark.asyncio
 async def test_create_and_get_team_by_name(async_session: AsyncSession):
