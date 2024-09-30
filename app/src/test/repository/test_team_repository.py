@@ -1,4 +1,3 @@
-# app/src/test/repository/test_team_repository.py
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 import sys
@@ -37,4 +36,5 @@ async def test_create_and_get_team_by_name(async_session: AsyncSession):
         assert fetched_team.t_name == "Test Team"
         assert fetched_team.t_intro == "This is a test team"
 
+    # 세션 종료 후 롤백 처리
     await session.rollback()

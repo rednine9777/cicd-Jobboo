@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 print("Current sys.path:", sys.path)  # 추가된 경로 출력
 
 # models 파일에서 Base를 가져옵니다.
-from app.models import Base  # 정확한 경로로 수정 필요
+from app.models import Base
 
 # 환경 변수 로드
 from dotenv import load_dotenv
@@ -27,7 +27,9 @@ async def async_session():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
+    # 세션 생성 및 반환
     async with async_session_maker() as session:
         yield session
 
+    # 엔진 종료
     await engine.dispose()
