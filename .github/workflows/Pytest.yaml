@@ -3,8 +3,6 @@ name: Pytest
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
   workflow_run:
     workflows: ["pip-install"]
     types:
@@ -17,4 +15,6 @@ jobs:
 
     steps:
     - name: Run pytest
-      run: pytest -s app/src/test/
+      run: |
+        pip install pytest
+        pytest -s app/src/test/
