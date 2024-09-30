@@ -5,21 +5,16 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  workflow_run:
+    workflows: ["pip-install"]
+    types:
+      - completed
+  
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.11"]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
     - name: Run pytest
-      run: pytest app/src/test/
+      run: pytest -s app/src/test/
