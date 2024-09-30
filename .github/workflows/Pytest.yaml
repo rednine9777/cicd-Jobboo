@@ -1,26 +1,35 @@
-name: Pytest
+name: Pytest with Docker
 
 on:
   push:
     branches: ["main"]
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
     strategy:
-        matrix:
-          python-version: ["3.11"]
+      matrix:
+        python-version: ["3.11"]
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
     
-    - name: Pip Installer
-      uses: BSFishy/pip-action@v1
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    - name: Build Docker image
+      uses: docker/build-push-action@v4
       with:
-        requirements: requirements.txt
+        context: .
+        push: false  # 이미지를 푸시하지 않으려면 false로 설정
+        tags: my-app:latest
+
+    - name: Start services with Docker Compose
+      run: docker-compose up -d
+
+    - name: Install pytest
+      run: pip install pytest
 
     - name: Run pytest
-      run: |
-        pip install pytest
-        pytest -s app/src/test/
+      run: pytest -s app/src/test/
