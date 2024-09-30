@@ -38,6 +38,8 @@ jobs:
         echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> config/.env
         echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> config/.env
         echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> config/.env
+        cat config.env
+        pwd
 
     - name: Build Docker image
       uses: docker/build-push-action@v4
