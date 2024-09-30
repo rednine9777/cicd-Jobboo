@@ -11,6 +11,7 @@ print("Current sys.path:", sys.path)  # 경로 출력
 from app.models import Team  # models 경로 수정
 from app.src.main.goo.repository.TeamRepository import TeamRepository
 
+# pytest-asyncio 마크를 사용해 비동기 함수 설정
 @pytest.mark.asyncio
 async def test_create_and_get_team_by_name(async_session: AsyncSession):
     async with async_session as session:
@@ -36,4 +37,5 @@ async def test_create_and_get_team_by_name(async_session: AsyncSession):
         assert fetched_team.t_name == "Test Team"
         assert fetched_team.t_intro == "This is a test team"
 
+    # 세션 종료 후 롤백 처리
     await session.rollback()
