@@ -43,5 +43,5 @@ jobs:
     - name: Start services with Docker Compose
       run: docker-compose up -d
 
-    - name: Run pytest
-      run: pytest -s app/src/test/
+    - name: Run pytest inside the container
+      run: docker-compose exec web pytest -s app/src/test/
