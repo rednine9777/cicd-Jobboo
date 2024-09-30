@@ -12,8 +12,8 @@ from app.src.main.goo.repository.TeamRepository import TeamRepository
 
 # pytest-asyncio 명시적으로 적용
 @pytest.mark.asyncio
-async def test_create_and_get_team_by_name(async_session_maker: AsyncSession):
-    async with async_session_maker() as session:  # async_session_maker를 사용하여 세션 생성
+async def test_create_and_get_team_by_name(async_session):
+    async with async_session as session:  # 세션 생성
         team_repo = TeamRepository(session)
 
         # 팀 생성
