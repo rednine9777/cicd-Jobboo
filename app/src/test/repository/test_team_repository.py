@@ -1,11 +1,13 @@
+# app/src/test/repository/test_team_repository.py
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
-from models import Team
-from src.main.goo.repository.TeamRepository import TeamRepository
+from app.models import Team
+from app.src.main.goo.repository.TeamRepository import TeamRepository
 
 @pytest.mark.asyncio
 async def test_create_and_get_team_by_name(async_session: AsyncSession):
-    async with async_session() as session:
+    # 트랜잭션 시작
+    async with async_session as session:
         team_repo = TeamRepository(session)
 
         # 팀 생성
@@ -29,5 +31,6 @@ async def test_create_and_get_team_by_name(async_session: AsyncSession):
         assert fetched_team is not None
         assert fetched_team.t_name == "Test Team"
         assert fetched_team.t_intro == "This is a test team"
-
+    
+    # 세션 종료 후 롤백 처리
     await session.rollback()
