@@ -46,5 +46,5 @@ jobs:
 
     - name: Run pytest inside the container
       run: |
-        # GitHub Actions 환경에서는 TTY가 제공되지 않으므로 -T 플래그 추가
+        # GitHub Actions 환경에서는 TTY가 제공되지 않으므로 -T 플래그 추가 (TTY = 터미널 대화형 환경)
         docker-compose exec -T web pytest -s /app/src/test/
