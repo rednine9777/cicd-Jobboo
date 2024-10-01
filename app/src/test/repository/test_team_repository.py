@@ -8,8 +8,8 @@ dotenv_path = os.getenv('DOTENV_PATH')
 load_dotenv(dotenv_path=dotenv_path)
 
 # models와 repository 경로를 정확히 지정
-from models import Team
-from src.main.goo.repository.TeamRepository import TeamRepository
+from app.models import Team
+from app.src.main.goo.repository.TeamRepository import TeamRepository
 
 import sys
 print(sys.path)
