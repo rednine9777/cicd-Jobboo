@@ -15,13 +15,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
     - name: Install dependencies
       run: |
-        pip install pytest pytest-asyncio  # pytest-asyncio 설치 확인
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
     - name: Create pytest.ini file
       run: |
         echo "[pytest]" > pytest.ini
+        echo "python_paths = ." >> pytest.ini  # 현재 디렉토리를 python 모듈 경로로 추가
         echo "markers = asyncio: mark a test as asyncio" >> pytest.ini  # asyncio 마커 등록
 
     - name: Install Docker Compose
@@ -38,8 +45,6 @@ jobs:
         echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> config/.env
         echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> config/.env
         echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> config/.env
-        cat config/.env
-        pwd
 
     - name: Build Docker image
       uses: docker/build-push-action@v4

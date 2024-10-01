@@ -5,7 +5,7 @@ import sys
 import os
 
 # app 디렉토리의 경로를 Python 경로에 추가
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 print("Current sys.path:", sys.path)  # 추가된 경로 출력
 
 # models 파일에서 Base를 가져옵니다.
