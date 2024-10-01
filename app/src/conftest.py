@@ -3,16 +3,10 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 import sys
 import os
-
-dotenv_path = os.getenv('DOTENV_PATH')
-load_dotenv(dotenv_path=dotenv_path)
-
-# models 파일에서 Base를 가져옵니다.
+from dotenv import load_dotenv
 from app.models import Base
 
-# 환경 변수 로드
-from dotenv import load_dotenv
-dotenv_path = os.path.join(os.path.dirname(__file__), '../../../config/.env')
+dotenv_path = os.getenv('DOTENV_PATH')
 load_dotenv(dotenv_path=dotenv_path)
 
 # async_session fixture 정의
