@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 import sys
 import os
 from dotenv import load_dotenv
-from app.models import Base
+from models import Base
 
 dotenv_path = os.getenv('DOTENV_PATH')
 load_dotenv(dotenv_path=dotenv_path)
