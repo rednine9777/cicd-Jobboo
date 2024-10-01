@@ -1,19 +1,19 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
-import sys
 import os
+from dotenv import load_dotenv
 
-# Python 경로 설정 후 출력
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
-print("Current sys.path:", sys.path)  # 경로 출력
+# 환경에 따라 .env 파일 경로를 동적으로 설정
+dotenv_path = os.getenv('DOTENV_PATH')
+load_dotenv(dotenv_path=dotenv_path)
 
-from app.models import Team  # models 경로 수정
+# models와 repository 경로를 정확히 지정
+from app.models import Team
 from app.src.main.goo.repository.TeamRepository import TeamRepository
 
 # pytest-asyncio 명시적으로 적용
 @pytest.mark.asyncio
 async def test_create_and_get_team_by_name(async_session: AsyncSession):
-    # 세션이 제대로 생성되는지 확인
     print("세션 시작")
     async with async_session as session:
         print("세션 실행 중...")
@@ -22,10 +22,10 @@ async def test_create_and_get_team_by_name(async_session: AsyncSession):
 
         # 팀 생성
         new_team = Team(
-            t_name="Test Team", 
-            t_intro="This is a test team", 
-            t_descript="Test description", 
-            t_logo="logo.png", 
+            t_name="Test Team",
+            t_intro="This is a test team",
+            t_descript="Test description",
+            t_logo="logo.png",
             t_git="https://github.com/testteam"
         )
         created_team = await team_repo.create_team(new_team)

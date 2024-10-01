@@ -2,20 +2,14 @@ import pymysql
 import os
 from dotenv import load_dotenv
 
-# Calculate the path to the .env file and load it
-dotenv_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'config', '.env'))
-print("Attempting to load .env from:", dotenv_path)
-
-if os.path.exists(dotenv_path):
-    print(".env file exists")
-    load_dotenv(dotenv_path=dotenv_path)
-else:
-    print(".env file does not exist, please check the file path.")
+# 환경에 따라 .env 파일 경로를 동적으로 설정
+dotenv_path = os.getenv('DOTENV_PATH')
+load_dotenv(dotenv_path=dotenv_path)
 
 # MySQL connection test function
 def test_mysql_connection():
     # Retrieve DB information from environment variables
-    db_host = "db"  # Docker 컨테이너 내부에서는 일반적으로 'db' 호스트 사용
+    db_host = os.getenv('MYSQL_HOST', 'db')  # 기본값으로 'db' 설정
     db_user = os.getenv('MYSQL_USER')
     db_password = os.getenv('MYSQL_PASSWORD')
     db_port = int(os.getenv('MYSQL_PORT', 3306))
