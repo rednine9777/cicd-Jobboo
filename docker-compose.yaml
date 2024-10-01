@@ -10,7 +10,6 @@ services:
       - ./config/.env:/app/.env  # 호스트의 .env 파일을 컨테이너의 /app/.env로 마운트
     environment:
       - MYSQL_HOST=db
-      - DOTENV_PATH=/app/.env
     env_file:
       - ./config/.env  # 환경 변수를 .env 파일에서 로드
     depends_on:

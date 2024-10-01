@@ -3,7 +3,8 @@ import os
 from dotenv import load_dotenv
 
 # 환경에 따라 .env 파일 경로를 동적으로 설정
-dotenv_path = os.getenv('DOTENV_PATH')
+# dotenv_path = os.getenv('DOTENV_PATH')
+dotenv_path = os.getenv('/app/.env')
 load_dotenv(dotenv_path=dotenv_path)
 
 # Database creation test function
