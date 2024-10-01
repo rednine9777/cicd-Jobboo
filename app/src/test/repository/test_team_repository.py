@@ -11,6 +11,13 @@ load_dotenv(dotenv_path=dotenv_path)
 from models import Team
 from src.main.goo.repository.TeamRepository import TeamRepository
 
+import sys
+print(sys.path)
+
+import os
+print(os.getcwd())
+
+
 # pytest-asyncio 명시적으로 적용
 @pytest.mark.asyncio
 async def test_create_and_get_team_by_name(async_session: AsyncSession):
