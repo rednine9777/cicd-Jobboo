@@ -39,6 +39,7 @@ jobs:
         docker-compose exec -T web coverage report
         # docker-compose exec -T web coverage html
 
+    # 슬랙 알림 웹훅 추가
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       env: 
