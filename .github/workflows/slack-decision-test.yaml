@@ -1,16 +1,11 @@
+# Slack Decision Test 워크플로우
 name: Slack Decision Test
 
 on:
-  workflow_dispatch:
-    inputs:
-      decision:
-        description: 'Deploy decision'
-        required: true
-        default: 'no'
-        type: choice
-        options:
-          - yes
-          - no
+  workflow_run:
+    workflows: ["Pytest"]
+    types:
+      - completed
 
 jobs:
   decision-test:
@@ -18,5 +13,9 @@ jobs:
 
     steps:
       - name: Output decision
-        run: |
-          echo 'You selected: ${{ github.event.inputs.decision }}'
+        if: ${{ github.event.inputs.decision == 'yes' }}
+        run: echo "You selected YES, proceeding with deployment."
+
+      - name: No action for NO
+        if: ${{ github.event.inputs.decision == 'no' }}
+        run: echo "You selected NO, workflow will end."

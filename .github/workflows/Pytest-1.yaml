@@ -33,7 +33,7 @@ jobs:
           docker-compose exec -T web coverage run -m pytest -s /app/src/test/
           docker-compose exec -T web coverage report
 
-      # Slack으로 메시지 전송
+      # Pytest가 성공한 후 Slack으로 메시지 전송
       - name: Notify on Slack
         run: |
           curl -X POST -H 'Content-type: application/json' \
