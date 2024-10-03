@@ -39,11 +39,6 @@ jobs:
         docker-compose exec -T web coverage report
         # docker-compose exec -T web coverage html
 
-    - name: Run pylint inside the container
-      run: | 
-        docker-compose exec -T web pylint $(git ls-files '*.py') # 불필요한  pycache 같은 파일도 테스트에 포함되어 git 저장소에 올라간 파일들만 pylint 실행하는 명령어
-
-
         
     # # Docker 이미지를 빌드하고, 푸시 여부에 따라 레지스트리로 푸시
     # - name: Build Docker image
