@@ -1,0 +1,22 @@
+name: Slack Decision Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      decision:
+        description: 'Deploy decision'
+        required: true
+        default: 'no'
+        type: choice
+        options:
+          - yes
+          - no
+
+jobs:
+  decision-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Output decision
+        run: |
+          echo 'You selected: ${{ github.event.inputs.decision }}'
