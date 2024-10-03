@@ -20,3 +20,5 @@ cryptography==40.0.1 # 암호화와 관련된 보안 작업을 수행할 수 있
 pytest-asyncio # 비동기 함수 테스트를 위한 플러그인
 rich              # 터미널 출력에 색상, 테이블, 트레이스백 등 다양한 기능 제공
 json-log-formatter
+coverage
+pylint
