@@ -30,16 +30,18 @@ jobs:
         echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> config/.env
         echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> config/.env
 
-    - name: Build Docker image
-      uses: docker/build-push-action@v4
-      with:
-        context: .
-        push: false
-        tags: my-app:latest
-
     - name: Start services with Docker Compose
       run: docker-compose up -d
 
     - name: Run pytest inside the container
       run: |
         docker-compose exec -T web pytest -s /app/src/test/
+
+    # # Docker 이미지를 빌드하고, 푸시 여부에 따라 레지스트리로 푸시
+    # - name: Build Docker image
+    #   uses: docker/build-push-action@v4
+    #   with:
+    #     context: .
+    #     push: false  # 이미지를 빌드하지만 외부 레지스트리로 푸시하지 않음
+    #     tags: my-app:latest  # 'my-app:latest' 태그를 추가하여 로컬에 저장
+
