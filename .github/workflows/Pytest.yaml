@@ -15,16 +15,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
     - name: Install Docker Compose
       run: |
         sudo apt-get update
@@ -39,8 +29,6 @@ jobs:
         echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> config/.env
         echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> config/.env
         echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> config/.env
-        pwd
-        cat config/.env
 
     - name: Build Docker image
       uses: docker/build-push-action@v4
@@ -54,4 +42,4 @@ jobs:
 
     - name: Run pytest inside the container
       run: |
-        docker-compose exec -T web pytest -s /app/src/test/  # 모든 테스트 실행
+        docker-compose exec -T web pytest -s /app/src/test/
