@@ -6,6 +6,10 @@ import os
 import logging
 from rich.logging import RichHandler  # RichHandler 임포트
 from rich.console import Console  # Rich 콘솔 임포트
+from httpx import AsyncClient  # FastAPI API 테스트를 위한 httpx.AsyncClient 사용
+
+# FastAPI 앱 임포트
+from main import app
 
 # 프로젝트 루트 경로 설정
 current_path = os.path.dirname(os.path.abspath(__file__))
@@ -17,8 +21,8 @@ from database import AsyncSessionLocal  # AsyncSessionLocal 임포트
 from src.main.goo.repository.TeamRepository import TeamRepository
 from models import Team
 
-# docker-compose exec web pytest -s --log-cli-level=INFO src/test
-
+# controller 모듈 임포트
+from src.main.goo.controller import TeamController
 
 # Rich 콘솔 설정
 console = Console()
@@ -124,3 +128,17 @@ async def test_list_team_if_data_exists(async_session: AsyncSession):
         logging.info(f"팀 이름: {team.t_name}, 팀 소개: {team.t_intro}")  # Rich 로그 출력
 
     assert len(team_list) > 0, "팀 리스트가 비어있습니다."
+
+# 팀 리스트 API 테스트 (httpx.AsyncClient 사용)
+@pytest.mark.asyncio
+async def test_list_team_api():
+    async with AsyncClient(app=app, base_url="http://testserver") as client:
+        response = await client.get("/list_team")
+
+        # 로그 출력
+        logging.info(f"API 응답 상태 코드: {response.status_code}")
+
+        # 응답 검증
+        assert response.status_code == 200
+        assert "teams" in response.json()
+        logging.info(f"팀 리스트: {response.json()['teams']}")

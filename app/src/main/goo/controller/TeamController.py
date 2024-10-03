@@ -70,13 +70,19 @@ async def check_team_name(request: Request, repo: TeamRepository = Depends(get_t
     
     return { "exists" : False }
 
-
-
-
-
-
-
-
+@router.get("/list_team", name="list_team")
+async def list_team(repo: TeamRepository = Depends(get_team_repository)):
+    try:
+        # 팀 목록 조회
+        teams = await repo.list_team()
+        if not teams:
+            return {"message": "등록된 팀이 없습니다."}
+        
+        # 팀 정보를 JSON 형식으로 반환
+        return {"teams": [{"t_name": team.t_name, "t_intro": team.t_intro, "t_descript": team.t_descript, "t_git": team.t_git, "t_logo": team.t_logo} for team in teams]}
+    except Exception as e:
+        logger.error(f"팀 목록 조회 중 오류 발생: {e}")
+        raise HTTPException(status_code=500, detail="팀 목록 조회 중 오류 발생")
 
 
 
