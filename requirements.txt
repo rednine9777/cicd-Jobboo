@@ -17,3 +17,4 @@ aiomysql # 비동기 MySQL 데이터베이스 지원을 제공하는 라이브�
 sqlalchemy[asyncio] # SQLAlchemy의 비동기 지원 모듈로, 비동기 I/O를 사용하여 데이터베이스 작업을 수행
 cryptography==40.0.1 # 암호화와 관련된 보안 작업을 수행할 수 있는 라이브러리
 pytest-asyncio # 비동기 함수 테스트를 위한 플러그인
+rich              # 터미널 출력에 색상, 테이블, 트레이스백 등 다양한 기능 제공
