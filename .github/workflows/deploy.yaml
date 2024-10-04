@@ -47,7 +47,7 @@ jobs:
             host: ${{ env.IP }}
             username: ubuntu
             key: ${{ secrets.KEY }}
-            port: 22
+            # port: 22
             source: "./config/.env"
             target: "/home/ubuntu/"
             debug: true
@@ -90,5 +90,5 @@ jobs:
               # 디렉토리 안에서 Docker Compose 빌드 및 서비스 배포
               docker-compose build
               docker-compose down
-              docker-compose up -d 2>&1 
+              docker-compose up -d
 
