@@ -38,17 +38,17 @@ jobs:
           echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> config/.env
 
       # .env 파일을 EC2로 전송 (scp 사용)
-      - name: Upload .env to EC2
-        uses: appleboy/scp-action@v0.1.0
-        with:
-          host: ${{ env.IP }}
-          username: ubuntu
-          key: ${{ secrets.KEY }}
-          source: "./config/.env"
-          target: "~/remote-config/.env"
-          # 전송 후 권한 설정
-          script: |
-            chmod 600 ~/remote-config/.env
+    #   - name: Upload .env to EC2
+    #     uses: appleboy/scp-action@v0.1.0
+    #     with:
+    #       host: ${{ env.IP }}
+    #       username: ubuntu
+    #       key: ${{ secrets.KEY }}
+    #       source: "./config/.env"
+    #       target: "~/remote-config/.env"
+    #       # 전송 후 권한 설정
+    #       script: |
+    #         chmod 600 ~/remote-config/.env
 
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.8
