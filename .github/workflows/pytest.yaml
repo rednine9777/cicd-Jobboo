@@ -1,0 +1,61 @@
+name: pytest
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install docker-compose -y
+
+    - name: Create .env file from secrets
+      run: |
+        mkdir -p config
+        echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" > config/.env
+        echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> config/.env
+        echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> config/.env
+        echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> config/.env
+        echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> config/.env
+        echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> config/.env
+
+    - name: Start services with Docker Compose
+      run: docker-compose up -d
+
+    - name: Run pytest inside the container
+      run: |
+        docker-compose exec -T web coverage run -m pytest -s /app/src/test/
+        docker-compose exec -T web coverage report
+        # docker-compose exec -T web coverage html
+
+    # 슬랙 알림 웹훅 추가
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env: 
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        
+    # # Docker 이미지를 빌드하고, 푸시 여부에 따라 레지스트리로 푸시
+    # - name: Build Docker image
+    #   uses: docker/build-push-action@v4
+    #   with:
+    #     context: .
+    #     push: false  # 이미지를 빌드하지만 외부 레지스트리로 푸시하지 않음
+    #     tags: my-app:latest  # 'my-app:latest' 태그를 추가하여 로컬에 저장
+
+    # #Pytest가 성공한 후 Slack으로 메시지 전송
+    # - name: Notify on Slack
+    #   run: |
+    #     curl -X POST -H 'Content-type: application/json' \
+    #     --data '{"text": "빌드가 성공했습니다. 배포를 진행하시겠습니까?", "attachments": [{"fallback": "Yes or No", "actions": [{"name": "deploy", "text": "Yes", "type": "button", "value": "yes"}, {"name": "deploy", "text": "No", "type": "button", "value": "no"}]}]}' \
+    #     ${{ secrets.SLACK_WEBHOOK }}
