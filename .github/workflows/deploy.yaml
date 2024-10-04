@@ -90,4 +90,5 @@ jobs:
               # 디렉토리 안에서 Docker Compose 빌드 및 서비스 배포
               docker-compose build
               docker-compose down
-              docker-compose up -d
+              docker-compose up -d 2>&1 
+
