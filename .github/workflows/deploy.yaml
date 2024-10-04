@@ -9,6 +9,7 @@ jobs:
   deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -44,7 +45,10 @@ jobs:
           username: ubuntu
           key: ${{ secrets.KEY }}
           source: "./config/.env"
-          target: "~/remote-config/.env"  # 임시 저장 위치
+          target: "~/remote-config/.env"
+          # 전송 후 권한 설정
+          script: |
+            chmod 600 ~/remote-config/.env
 
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.8
@@ -75,6 +79,6 @@ jobs:
             mv ~/remote-config/.env ./config/.env
 
             # 디렉토리 안에서 Docker Compose 빌드 및 서비스 배포
-            docker-compose build  # 이미지 빌드
+            docker-compose build
             docker-compose down
             docker-compose up -d
