@@ -25,6 +25,16 @@ jobs:
           echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
           echo "IP=$IP" >> $GITHUB_ENV
 
+      - name: Create .env file from secrets
+        run: |
+          mkdir -p config
+          echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" > config/.env
+          echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> config/.env
+          echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> config/.env
+          echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> config/.env
+          echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> config/.env
+          echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> config/.env
+
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -32,7 +42,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.KEY }}
           port: 22
-          # script 대신 commands 사용
           script: |
             # PAT 토큰을 사용하여 Git 인증 설정
             git config --global credential.helper store
