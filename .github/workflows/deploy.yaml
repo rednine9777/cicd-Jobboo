@@ -47,7 +47,7 @@ jobs:
             username: ubuntu
             key: ${{ secrets.KEY }}
             port: 22
-            source: "./config/.env"
+            source: "/home/runner/work/cicd-Jobboo/cicd-Jobboo/config/.env"
             target: "/home/ubuntu/remote-config/.env"
             debug: true
             
