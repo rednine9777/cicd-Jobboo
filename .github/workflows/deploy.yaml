@@ -36,16 +36,22 @@ jobs:
           echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> config/.env
           echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> config/.env
           echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> config/.env
+          cat config/.env
+          pwd
 
       # .env 파일을 EC2로 전송 (scp 사용)
       - name: Upload .env to EC2
         uses: appleboy/scp-action@v0.1.0
         with:
-          host: ${{ env.IP }}
-          username: ubuntu
-          key: ${{ secrets.KEY }}
-          source: "./config/.env"
-          target: "/home/ubuntu/remote-config/.env" # 절대 경로로 수정
+            host: ${{ env.IP }}
+            username: ubuntu
+            key: ${{ secrets.KEY }}
+            port: 22
+            source: "./config/.env"
+            target: "/home/ubuntu/remote-config/.env"
+            debug: true
+            
+        
 
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.8
