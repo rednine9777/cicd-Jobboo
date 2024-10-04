@@ -48,8 +48,8 @@ jobs:
             username: ubuntu
             key: ${{ secrets.KEY }}
             port: 22
-            source: "/home/runner/work/cicd-Jobboo/cicd-Jobboo/config/.env"
-            target: "/home/ubuntu/remote-config/.env"
+            source: "./config/.env"
+            target: "/home/ubuntu/"
             debug: true
             
         
@@ -57,32 +57,32 @@ jobs:
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.8
         with:
-          host: ${{ env.IP }}
-          username: ubuntu
-          key: ${{ secrets.KEY }}
-          port: 22
-          script: |
-            # PAT 토큰을 사용하여 Git 인증 설정
-            git config --global credential.helper store
-            echo "https://${{ secrets.PAT_TOKEN }}:x-oauth-basic@github.com" > ~/.git-credentials
+            host: ${{ env.IP }}
+            username: ubuntu
+            key: ${{ secrets.KEY }}
+            port: 22
+            script: |
+              # PAT 토큰을 사용하여 Git 인증 설정
+              git config --global credential.helper store
+              echo "https://${{ secrets.PAT_TOKEN }}:x-oauth-basic@github.com" > ~/.git-credentials
 
-            # GitHub 환경 변수로 오너와 저장소 이름을 추출하여 디렉토리 이름으로 사용
-            OWNER=$(echo ${{ github.repository }} | cut -d'/' -f1)
-            REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)
+              # GitHub 환경 변수로 오너와 저장소 이름을 추출하여 디렉토리 이름으로 사용
+              OWNER=$(echo ${{ github.repository }} | cut -d'/' -f1)
+              REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)
 
-            # OWNER-REPO_NAME 디렉토리가 없으면 Git 저장소 클론, 있으면 디렉토리로 이동 후 pull
-            if [ ! -d "$OWNER-$REPO_NAME" ]; then
-              git clone https://github.com/${{ github.repository }}.git $OWNER-$REPO_NAME
-              cd $OWNER-$REPO_NAME
-            else
-              cd $OWNER-$REPO_NAME
-              git pull
-            fi
+              # OWNER-REPO_NAME 디렉토리가 없으면 Git 저장소 클론, 있으면 디렉토리로 이동 후 pull
+              if [ ! -d "$OWNER-$REPO_NAME" ]; then
+                  git clone https://github.com/${{ github.repository }}.git $OWNER-$REPO_NAME
+                  cd $OWNER-$REPO_NAME
+              else
+                  cd $OWNER-$REPO_NAME
+                  git pull
+              fi
 
-            # .env 파일을 Docker Compose 경로로 이동
-            mv /home/ubuntu/remote-config/.env ./config/.env  # 절대 경로로 수정
+              # .env 파일을 Docker Compose 경로로 이동
+              mv /home/ubuntu/.env ./config/.env  # 새로운 절대 경로로 수정
 
-            # 디렉토리 안에서 Docker Compose 빌드 및 서비스 배포
-            docker-compose build
-            docker-compose down
-            docker-compose up -d
+              # 디렉토리 안에서 Docker Compose 빌드 및 서비스 배포
+              docker-compose build
+              docker-compose down
+              docker-compose up -d
