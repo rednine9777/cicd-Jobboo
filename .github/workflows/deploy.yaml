@@ -26,7 +26,7 @@ jobs:
           echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
           echo "IP=$IP" >> $GITHUB_ENV
 
-      # GitHub Actions 러너에서 .env 파일 생성aaa
+      # GitHub Actions 러너에서 .env 파일 생성
       - name: Create .env file from secrets
         run: |
           mkdir -p config
@@ -37,7 +37,7 @@ jobs:
           echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> config/.env
           echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> config/.env
 
-    #   .env 파일을 EC2로 전송 (scp 사용)
+      # .env 파일을 EC2로 전송 (scp 사용)
       - name: Upload .env to EC2
         uses: appleboy/scp-action@v0.1.0
         with:
@@ -45,10 +45,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.KEY }}
           source: "./config/.env"
-          target: "~/remote-config/.env"
-          # 전송 후 권한 설정
-        #   script: |
-        #     chmod 600 ~/remote-config/.env
+          target: "/home/ubuntu/remote-config/.env" # 절대 경로로 수정
 
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.8
@@ -76,7 +73,7 @@ jobs:
             fi
 
             # .env 파일을 Docker Compose 경로로 이동
-            mv ~/remote-config/.env ./config/.env
+            mv /home/ubuntu/remote-config/.env ./config/.env  # 절대 경로로 수정
 
             # 디렉토리 안에서 Docker Compose 빌드 및 서비스 배포
             docker-compose build
