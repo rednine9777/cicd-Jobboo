@@ -39,7 +39,7 @@ async def test_create_and_get_team_by_name(async_session):
     await team_repository.create_team(new_team)
     print(f"팀 생성됨: {new_team.t_name}, {new_team.t_intro}")
 
-    # Fetch the team by name
+    # Fetch the team by name ...
     created_team = await team_repository.get_team_by_name("Test Team")
     print(f"조회된 팀 이름: {created_team.t_name}, 팀 소개: {created_team.t_intro}")
 
