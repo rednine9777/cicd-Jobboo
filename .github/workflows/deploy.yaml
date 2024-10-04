@@ -78,6 +78,10 @@ jobs:
                   cd $OWNER-$REPO_NAME
                   git pull
               fi
+              
+              # 현재 경로 확인
+              echo "--- 현재 경로 확인 ---"
+              pwd
 
               # .env 파일을 Docker Compose 경로로 이동
               mv /home/ubuntu/config/.env ./config/.env  # 새로운 절대 경로로 수정
