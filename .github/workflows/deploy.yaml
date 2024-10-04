@@ -53,7 +53,7 @@ jobs:
             debug: true
             
         
-
+        # 개고생함.
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.8
         with:
