@@ -46,7 +46,7 @@ jobs:
             --port 22 \
             --cidr ${{ steps.runner_ip.outputs.ipv4 }}/32
       
-      # 22번 포트 관련 보안 그룹 규칙을 확인하고 출력 123asdasdasdasdasd
+      # 22번 포트 관련 보안 그룹 규칙을 확인하고 출력 123asdasdasdasdasdasdasd
       - name: Check Security Group Port 22 Rule
         run: |
           SG_ID=$(aws ec2 describe-security-groups --filters Name=tag:Name,Values="${{ env.AWS_TAG_NAME }}" --query 'SecurityGroups[0].GroupId' --output text)
